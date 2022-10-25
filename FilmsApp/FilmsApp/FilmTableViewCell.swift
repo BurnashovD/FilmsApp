@@ -18,9 +18,10 @@ final class FilmTableViewCell: UITableViewCell {
     
     let filmImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
-        imageView.backgroundColor = .red
-        imageView.image = UIImage(named: "pirates")
+//        imageView.backgroundColor = .red
+//        imageView.image = UIImage(named: "pirates")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -28,11 +29,32 @@ final class FilmTableViewCell: UITableViewCell {
     let filmNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        label.text = "Пираты карибского моря"
         label.textColor = .white
-        label.numberOfLines = 2
-        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
+        label.adjustsFontSizeToFitWidth = true
+//        label.backgroundColor = .red
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let filmRateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textColor = .green
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let filmOverviewLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textColor = .white
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -47,16 +69,36 @@ final class FilmTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         backgroundColor = UIColor(named: "blueView")
         configUI()
+        
         // Configure the view for the selected state
     }
     
     private func configUI() {
         cellView.addSubview(filmImageView)
         cellView.addSubview(filmNameLabel)
+        cellView.addSubview(filmRateLabel)
+        cellView.addSubview(filmOverviewLabel)
         contentView.addSubview(cellView)
         createFilmImageViewAnchors()
         createViewAnchors()
         createFilmNameLabelAnchors()
+        createFilmRatesAnchors()
+        createFilmOverviewLabelAnchors()
+    }
+    
+    public func refresh(data: Result) {
+        let imageURL = "http://image.tmdb.org/t/p/w500\(data.posterPath)"
+        filmNameLabel.text = data.title
+        filmRateLabel.text = String(data.voteAverage)
+        filmOverviewLabel.text = data.overview
+        URLSession.shared.dataTask(with: URL(string: imageURL)!) { (data, response, error) in
+        
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async() { [weak self] in
+                    self?.filmImageView.image = UIImage(data: data)
+                    
+                }
+        }.resume()
     }
     
     private func createViewAnchors() {
@@ -77,7 +119,23 @@ final class FilmTableViewCell: UITableViewCell {
     private func createFilmNameLabelAnchors() {
         filmNameLabel.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 10).isActive = true
         filmNameLabel.leadingAnchor.constraint(equalTo: filmImageView.trailingAnchor, constant: 15).isActive = true
+//        filmNameLabel.centerXAnchor.constraint(equalTo: filmOverviewLabel.centerXAnchor).isActive = true
         filmNameLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        filmNameLabel.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        filmNameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+    
+    private func createFilmRatesAnchors() {
+        filmRateLabel.topAnchor.constraint(equalTo: filmNameLabel.bottomAnchor, constant: 105).isActive = true
+        filmRateLabel.leadingAnchor.constraint(equalTo: filmImageView.trailingAnchor, constant: 160).isActive = true
+        filmRateLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        filmRateLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    private func createFilmOverviewLabelAnchors() {
+        filmOverviewLabel.topAnchor.constraint(equalTo: filmNameLabel.bottomAnchor, constant: 0).isActive = true
+        filmOverviewLabel.leadingAnchor.constraint(equalTo: filmImageView.trailingAnchor, constant: 8).isActive = true
+        filmOverviewLabel.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -8).isActive = true
+        filmOverviewLabel.bottomAnchor.constraint(equalTo: cellView.bottomAnchor, constant: -40).isActive = true
     }
 }
+

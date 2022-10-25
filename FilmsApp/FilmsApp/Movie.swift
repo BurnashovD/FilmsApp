@@ -7,27 +7,6 @@
 
 import Foundation
 
-//struct MovieResult: Codable {
-//    var result: [Movie]
-//}
-//
-//struct Movie: Codable {
-//    let filmName: String
-//    let mainImageName: String
-//    let overview: String
-//    let filmVote: Int
-//    let realeaseDate: String
-//
-//    enum CodingKeys: String, CodingKey {
-//        case filmName = "title"
-//        case mainImageName = "poster_path"
-//        case overview
-//        case filmVote = "vote_average"
-//        case realeaseDate = "release_date"
-//    }
-//}
-
-// MARK: - Welcome
 struct MovieResult: Codable {
     let page: Int
     let results: [Result]
@@ -40,7 +19,6 @@ struct MovieResult: Codable {
     }
 }
 
-// MARK: - Result
 struct Result: Codable {
     let adult: Bool
     let backdropPath: String

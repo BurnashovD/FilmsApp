@@ -8,6 +8,18 @@ final class FilmsTableViewController: UITableViewController {
     let decoder = JSONDecoder()
     
     var movies = [Result]()
+    var movieImage = UIImage()
+    var actualURL = "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1" {
+        willSet {
+            reformMovies()
+            tableView.reloadData()
+            print(newValue)
+            let films = FilmTableViewCell()
+            
+            
+        }
+    }
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,26 +38,30 @@ final class FilmsTableViewController: UITableViewController {
         view.backgroundColor = UIColor(named: "blueView")
     }
     
+    
+    
     private func configCells() {
         tableView.register(FilmTableViewCell.self, forCellReuseIdentifier: "film")
         tableView.register(FilterTableViewCell.self, forCellReuseIdentifier: "filter")
         tableView.showsVerticalScrollIndicator = false 
     }
     
-    private func reformMovies() {
+    public func reformMovies() {
         let session = URLSession.shared
         
-        guard let url = URL(string: "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1") else { return }
+        guard let url = URL(string: actualURL) else { return }
         session.dataTask(with: URLRequest(url: url)) {(data, response, error) in
             
             do {
-                let result = try JSONDecoder().decode(MovieResult.self, from: data!)
+                guard let newData = data else { return }
+                let result = try JSONDecoder().decode(MovieResult.self, from: newData)
                 DispatchQueue.main.async {
                     self.movies = result.results
-                    print(self.movies)
+                    self.tableView.reloadData()
+                    print("Movies: \(self.movies)")
                 }
             } catch {
-                
+                print("Error: \(error)")
             }
         }.resume()
     }
@@ -61,7 +77,7 @@ extension FilmsTableViewController {
         if section == 0 {
             return 1
         } else if section == 1 {
-            return 20
+            return movies.count
         }
         return section
     }
@@ -70,14 +86,18 @@ extension FilmsTableViewController {
         
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "filter", for: indexPath)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "filter", for: indexPath) as? FilterTableViewCell else { return UITableViewCell() }
+
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "film", for: indexPath)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "film", for: indexPath) as? FilmTableViewCell else { return UITableViewCell() }
+            cell.refresh(data: movies[indexPath.row])
+            
             return cell
         default:
             return UITableViewCell()
         }
+        return UITableViewCell()
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
