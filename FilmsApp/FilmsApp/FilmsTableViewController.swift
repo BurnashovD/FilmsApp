@@ -5,11 +5,15 @@ import UIKit
 
 final class FilmsTableViewController: UITableViewController {
     
+    let decoder = JSONDecoder()
+    
+    var movies: [Movie] = []
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
         configCells()
+        reformMovies()
     }
 
     // MARK: - Private methods
@@ -26,6 +30,27 @@ final class FilmsTableViewController: UITableViewController {
         tableView.register(FilmTableViewCell.self, forCellReuseIdentifier: "film")
         tableView.register(FilterTableViewCell.self, forCellReuseIdentifier: "filter")
         tableView.showsVerticalScrollIndicator = false 
+    }
+    
+    private func reformMovies() {
+        let session = URLSession.shared
+        
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1") else { return }
+        session.dataTask(with: url) { [weak self] (data, response, error) in
+            
+            guard let strongSelf = self else { return }
+            
+            if error == nil, let parsData = data {
+                
+                let movie = try? strongSelf.decoder.decode([Movie].self, from: parsData)
+                
+                print("Movies: \(String(describing: movie))")
+                
+            } else {
+                
+                print("Error: \(String(describing: error))")
+            }
+        }.resume()
     }
 }
 

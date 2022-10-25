@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A545290E290744AC000D929E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = A545290D290744AC000D929E /* Movie.swift */; };
 		A5EF2EB42906C1C8005B1F54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF2EB32906C1C8005B1F54 /* AppDelegate.swift */; };
 		A5EF2EB62906C1C8005B1F54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF2EB52906C1C8005B1F54 /* SceneDelegate.swift */; };
 		A5EF2EBB2906C1C8005B1F54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5EF2EB92906C1C8005B1F54 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A545290D290744AC000D929E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		A5EF2EB02906C1C8005B1F54 /* FilmsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilmsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5EF2EB32906C1C8005B1F54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5EF2EB52906C1C8005B1F54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				A5EF2EE52906E07F005B1F54 /* FilmsTableViewController.swift */,
 				A5EF2EE72906E12D005B1F54 /* FilmTableViewCell.swift */,
 				A5EF2EE92906F3A8005B1F54 /* FilterTableViewCell.swift */,
+				A545290D290744AC000D929E /* Movie.swift */,
 				A5EF2EB92906C1C8005B1F54 /* Main.storyboard */,
 				A5EF2EBC2906C1C9005B1F54 /* Assets.xcassets */,
 				A5EF2EBE2906C1C9005B1F54 /* LaunchScreen.storyboard */,
@@ -309,6 +312,7 @@
 			files = (
 				A5EF2EB42906C1C8005B1F54 /* AppDelegate.swift in Sources */,
 				A5EF2EE82906E12D005B1F54 /* FilmTableViewCell.swift in Sources */,
+				A545290E290744AC000D929E /* Movie.swift in Sources */,
 				A5EF2EB62906C1C8005B1F54 /* SceneDelegate.swift in Sources */,
 				A5EF2EE62906E07F005B1F54 /* FilmsTableViewController.swift in Sources */,
 				A5EF2EEA2906F3A8005B1F54 /* FilterTableViewCell.swift in Sources */,
