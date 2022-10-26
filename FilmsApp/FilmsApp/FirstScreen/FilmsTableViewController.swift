@@ -9,7 +9,7 @@ final class FilmsTableViewController: UITableViewController {
     // MARK: - Private properties
     var movies = [Result]()
     var cellTypes: [CellTypes] = [.filters, .films]
-    var actualURL = "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
+    var actualURL = Constants.topRatedFilmsURLString
         
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -21,16 +21,16 @@ final class FilmsTableViewController: UITableViewController {
 
     // MARK: - Private methods
     private func configUI() {
-        title = "Фильмы"
+        title = Constants.filmsText
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.barTintColor = UIColor(named: "blueView")
+        navigationController?.navigationBar.barTintColor = UIColor(named: Constants.blueViewColorName)
         navigationController?.navigationBar.tintColor = UIColor.red
-        view.backgroundColor = UIColor(named: "blueView")
+        view.backgroundColor = UIColor(named: Constants.blueViewColorName)
     }
 
     private func configCells() {
-        tableView.register(FilmTableViewCell.self, forCellReuseIdentifier: "film")
-        tableView.register(FilterTableViewCell.self, forCellReuseIdentifier: "filter")
+        tableView.register(FilmTableViewCell.self, forCellReuseIdentifier: Constants.filmCellIdentifier)
+        tableView.register(FilterTableViewCell.self, forCellReuseIdentifier: Constants.filterCellIdentifier)
         tableView.showsVerticalScrollIndicator = false
     }
 
@@ -46,18 +46,25 @@ final class FilmsTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                     self.movies = result.results
                     self.tableView.reloadData()
-                    print("Movies: \(self.movies)")
                 }
             } catch {
-                print("Error: \(error)")
+                print(Constants.errorText, error)
             }
         }.resume()
     }
 }
 
+/// Constants and CellTypes
 extension FilmsTableViewController {
     enum Constants {
-        
+        static let topRatedFilmsURLString = "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
+        static let upcomingFilmsURLString = "https://api.themoviedb.org/3/movie/upcoming?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
+        static let popularFilmsURLString = "https://api.themoviedb.org/3/movie/popular?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-Ru&page=1"
+        static let filmCellIdentifier = "film"
+        static let filterCellIdentifier = "filter"
+        static let blueViewColorName = "blueView"
+        static let filmsText = "Фильмы"
+        static let errorText = "Error: "
     }
     
     enum CellTypes {
@@ -86,20 +93,41 @@ extension FilmsTableViewController {
         let type = cellTypes[indexPath.section]
         switch type {
         case .filters:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "filter", for: indexPath) as? FilterTableViewCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.filterCellIdentifier, for: indexPath) as? FilterTableViewCell else { return UITableViewCell() }
+            cell.sendTopRatedURLClosure = {
+                self.actualURL = Constants.topRatedFilmsURLString
+                self.reformMovies()
+            }
+            
+            cell.sendUpcomingURLClosure = {
+                self.actualURL = Constants.upcomingFilmsURLString
+                self.reformMovies()
+            }
+            
+            cell.sendPopularURLClosure = {
+                self.actualURL = Constants.popularFilmsURLString
+                self.reformMovies()
+            }
 
             return cell
         case .films:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "film", for: indexPath) as? FilmTableViewCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.filmCellIdentifier, for: indexPath) as? FilmTableViewCell else { return UITableViewCell() }
+            
             cell.movieRefresh = movies[indexPath.row]
             
             return cell
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+//            guard indexPath.row == 1 else { return }
+            let filmInfoTVC = FilmInfoTableViewController()
+            navigationController?.pushViewController(filmInfoTVC, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
-
 

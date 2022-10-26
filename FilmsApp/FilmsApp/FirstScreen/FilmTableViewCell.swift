@@ -7,18 +7,18 @@ import UIKit
 final class FilmTableViewCell: UITableViewCell {
     
     // MARK: - Visual components
-    let cellView: UIView = {
+     let cellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 25
-        view.backgroundColor = UIColor(named: "Color")
+        view.backgroundColor = UIColor(named: Constants.cellViewColorName)
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowRadius = 7
         view.layer.shadowOpacity = 0.5
         return view
     }()
     
-    let filmImageView: UIImageView = {
+    private let filmImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
@@ -26,7 +26,7 @@ final class FilmTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let filmNameLabel: UILabel = {
+    private let filmNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textColor = .white
@@ -38,7 +38,7 @@ final class FilmTableViewCell: UITableViewCell {
         return label
     }()
     
-    let filmRateLabel: UILabel = {
+    private let filmRateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textColor = .green
@@ -47,7 +47,7 @@ final class FilmTableViewCell: UITableViewCell {
         return label
     }()
     
-    let filmOverviewLabel: UILabel = {
+    private let filmOverviewLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         label.numberOfLines = 0
@@ -67,7 +67,8 @@ final class FilmTableViewCell: UITableViewCell {
             filmOverviewLabel.text = movieRefresh.overview
             
             let imageURL = "http://image.tmdb.org/t/p/w500\(movieRefresh.posterPath)"
-            URLSession.shared.dataTask(with: URL(string: imageURL)!) { (data, response, error) in
+            guard let url = URL(string: imageURL) else { return }
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
                 
                 guard let data = data, error == nil else { return }
                 DispatchQueue.main.async() { [weak self] in
@@ -85,7 +86,7 @@ final class FilmTableViewCell: UITableViewCell {
     
     // MARK: - Private methods
     private func configUI() {
-        backgroundColor = UIColor(named: "blueView")
+        backgroundColor = UIColor(named: Constants.blueViewColorName)
         cellView.addSubview(filmImageView)
         cellView.addSubview(filmNameLabel)
         cellView.addSubview(filmRateLabel)
@@ -97,7 +98,7 @@ final class FilmTableViewCell: UITableViewCell {
         createFilmRatesAnchors()
         createFilmOverviewLabelAnchors()
     }
- 
+    
     private func createViewAnchors() {
         cellView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
         cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
@@ -135,3 +136,9 @@ final class FilmTableViewCell: UITableViewCell {
     }
 }
 
+extension FilmTableViewCell {
+    enum Constants {
+        static let cellViewColorName = "cellViewColor"
+        static let blueViewColorName = "blueView"
+    }
+}

@@ -13,9 +13,9 @@ final class FilterTableViewCell: UITableViewCell {
     // MARK: - Visual components
     let firstButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(named: "buttonsColor")
+        button.backgroundColor = UIColor(named: Constants.buttonsColorName)
         button.layer.cornerRadius = 7
-        button.setTitle("Top rated", for: .normal)
+        button.setTitle(Constants.topRatedText, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
         return button
@@ -23,9 +23,9 @@ final class FilterTableViewCell: UITableViewCell {
     
     let secondButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(named: "buttonsColor")
+        button.backgroundColor = UIColor(named: Constants.buttonsColorName)
         button.layer.cornerRadius = 7
-        button.setTitle("Upcoming", for: .normal)
+        button.setTitle(Constants.upcomingText, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
         return button
@@ -33,18 +33,23 @@ final class FilterTableViewCell: UITableViewCell {
     
     let thirdButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(named: "buttonsColor")
+        button.backgroundColor = UIColor(named: Constants.buttonsColorName)
         button.layer.cornerRadius = 7
-        button.setTitle("Unknown", for: .normal)
+        button.setTitle(Constants.popularText, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
         return button
     }()
+    
+    // MARK: - Public properties
+    var sendTopRatedURLClosure: (() -> Void)?
+    var sendUpcomingURLClosure: (() -> Void)?
+    var sendPopularURLClosure: (() -> Void)?
 
     // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        backgroundColor = UIColor(named: "blueView")
+        backgroundColor = UIColor(named: Constants.blueViewColorName)
         configUI()
         createFirstButtonAnchors()
     }
@@ -57,6 +62,7 @@ final class FilterTableViewCell: UITableViewCell {
         contentView.addSubview(thirdButton)
         firstButton.addTarget(self, action: #selector(sendTopRatedURL), for: .touchUpInside)
         secondButton.addTarget(self, action: #selector(sendUpcomingdURL), for: .touchUpInside)
+        thirdButton.addTarget(self, action: #selector(sendPopularURL), for: .touchUpInside)
         createFirstButtonAnchors()
         createSecondButtonAnchors()
         createThirdButtonAnchors()
@@ -85,10 +91,25 @@ final class FilterTableViewCell: UITableViewCell {
     }
     
     @objc private func sendTopRatedURL() {
-        
+        self.sendTopRatedURLClosure?()
     }
     
     @objc private func sendUpcomingdURL() {
-        
+        self.sendUpcomingURLClosure?()
+    }
+    
+    @objc private func sendPopularURL() {
+        self.sendPopularURLClosure?()
+    }
+}
+
+
+extension FilterTableViewCell {
+    enum Constants {
+        static let buttonsColorName = "buttonsColor"
+        static let blueViewColorName = "blueView"
+        static let topRatedText = "Top rated"
+        static let upcomingText = "Upcoming"
+        static let popularText = "Popular"
     }
 }
