@@ -40,8 +40,6 @@ final class FilterTableViewCell: UITableViewCell {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
         return button
     }()
-    
-    var movies = [Result]()
 
     // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
