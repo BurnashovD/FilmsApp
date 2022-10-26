@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let filmsVC = FilmsTableViewController()
         let navController = UINavigationController(rootViewController: filmsVC)
         
-        navController.navigationBar.prefersLargeTitles = true
+//        navController.navigationBar.prefersLargeTitles = true
         
         window.rootViewController = navController
         window.makeKeyAndVisible()

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		A532887629097A9D00238F39 /* FilmInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A532887529097A9D00238F39 /* FilmInfoTableViewController.swift */; };
+		A53288782909852200238F39 /* TrailerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53288772909852200238F39 /* TrailerTableViewCell.swift */; };
+		A532887A2909C82000238F39 /* OverviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53288792909C82000238F39 /* OverviewTableViewCell.swift */; };
+		A532887C2909D15D00238F39 /* ActorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A532887B2909D15D00238F39 /* ActorsTableViewCell.swift */; };
+		A532887E2909D71200238F39 /* ActorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A532887D2909D71200238F39 /* ActorsCollectionViewCell.swift */; };
 		A545290E290744AC000D929E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = A545290D290744AC000D929E /* Movie.swift */; };
 		A5EF2EB42906C1C8005B1F54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF2EB32906C1C8005B1F54 /* AppDelegate.swift */; };
 		A5EF2EB62906C1C8005B1F54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF2EB52906C1C8005B1F54 /* SceneDelegate.swift */; };
@@ -41,6 +45,10 @@
 
 /* Begin PBXFileReference section */
 		A532887529097A9D00238F39 /* FilmInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmInfoTableViewController.swift; sourceTree = "<group>"; };
+		A53288772909852200238F39 /* TrailerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerTableViewCell.swift; sourceTree = "<group>"; };
+		A53288792909C82000238F39 /* OverviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewTableViewCell.swift; sourceTree = "<group>"; };
+		A532887B2909D15D00238F39 /* ActorsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorsTableViewCell.swift; sourceTree = "<group>"; };
+		A532887D2909D71200238F39 /* ActorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorsCollectionViewCell.swift; sourceTree = "<group>"; };
 		A545290D290744AC000D929E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		A5EF2EB02906C1C8005B1F54 /* FilmsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilmsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5EF2EB32906C1C8005B1F54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +106,10 @@
 			isa = PBXGroup;
 			children = (
 				A532887529097A9D00238F39 /* FilmInfoTableViewController.swift */,
+				A53288772909852200238F39 /* TrailerTableViewCell.swift */,
+				A53288792909C82000238F39 /* OverviewTableViewCell.swift */,
+				A532887B2909D15D00238F39 /* ActorsTableViewCell.swift */,
+				A532887D2909D71200238F39 /* ActorsCollectionViewCell.swift */,
 			);
 			path = SecondScreen;
 			sourceTree = "<group>";
@@ -330,8 +342,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5EF2EB42906C1C8005B1F54 /* AppDelegate.swift in Sources */,
+				A532887A2909C82000238F39 /* OverviewTableViewCell.swift in Sources */,
+				A532887E2909D71200238F39 /* ActorsCollectionViewCell.swift in Sources */,
 				A532887629097A9D00238F39 /* FilmInfoTableViewController.swift in Sources */,
 				A5EF2EE82906E12D005B1F54 /* FilmTableViewCell.swift in Sources */,
+				A53288782909852200238F39 /* TrailerTableViewCell.swift in Sources */,
+				A532887C2909D15D00238F39 /* ActorsTableViewCell.swift in Sources */,
 				A545290E290744AC000D929E /* Movie.swift in Sources */,
 				A5EF2EB62906C1C8005B1F54 /* SceneDelegate.swift in Sources */,
 				A5EF2EE62906E07F005B1F54 /* FilmsTableViewController.swift in Sources */,

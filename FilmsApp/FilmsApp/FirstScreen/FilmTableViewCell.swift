@@ -87,6 +87,7 @@ final class FilmTableViewCell: UITableViewCell {
     // MARK: - Private methods
     private func configUI() {
         backgroundColor = UIColor(named: Constants.blueViewColorName)
+        selectionStyle = .none
         cellView.addSubview(filmImageView)
         cellView.addSubview(filmNameLabel)
         cellView.addSubview(filmRateLabel)

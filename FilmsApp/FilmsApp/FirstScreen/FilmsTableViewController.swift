@@ -21,6 +21,7 @@ final class FilmsTableViewController: UITableViewController {
 
     // MARK: - Private methods
     private func configUI() {
+        navigationController?.navigationBar.prefersLargeTitles = true
         title = Constants.filmsText
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.barTintColor = UIColor(named: Constants.blueViewColorName)
