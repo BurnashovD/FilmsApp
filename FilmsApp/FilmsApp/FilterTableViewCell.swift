@@ -7,8 +7,10 @@
 
 import UIKit
 
+// Класс отвечает за ячейку с кнопками фильтра
 final class FilterTableViewCell: UITableViewCell {
     
+    // MARK: - Visual components
     let firstButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "buttonsColor")
@@ -23,7 +25,7 @@ final class FilterTableViewCell: UITableViewCell {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "buttonsColor")
         button.layer.cornerRadius = 7
-        button.setTitle("Топ рейтинга", for: .normal)
+        button.setTitle("Upcoming", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
         return button
@@ -33,28 +35,23 @@ final class FilterTableViewCell: UITableViewCell {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "buttonsColor")
         button.layer.cornerRadius = 7
-        button.setTitle("Топ рейтинга", for: .normal)
+        button.setTitle("Unknown", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
         return button
     }()
-
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        configUI()
-        createFirstButtonAnchors()
-    }
+    var movies = [Result]()
 
+    // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         backgroundColor = UIColor(named: "blueView")
         configUI()
         createFirstButtonAnchors()
-        // Configure the view for the selected state
     }
     
+    // MARK: - Private methods
     private func configUI() {
         selectionStyle = .none
         contentView.addSubview(firstButton)
@@ -66,20 +63,6 @@ final class FilterTableViewCell: UITableViewCell {
         createSecondButtonAnchors()
         createThirdButtonAnchors()
     }
-    
-    @objc private func sendTopRatedURL() {
-        let table = FilmsTableViewController()
-        
-        table.actualURL = "https://api.themoviedb.org/3/movie/upcoming?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
-        table.reformMovies()
-        table.tableView.reloadData()
-        
-    }
-    
-    @objc private func sendUpcomingdURL() {
-        
-    }
-    
     
     private func createFirstButtonAnchors() {
         firstButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
@@ -102,5 +85,12 @@ final class FilterTableViewCell: UITableViewCell {
         thirdButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         thirdButton.heightAnchor.constraint(equalToConstant: 30).isActive = false
     }
-
+    
+    @objc private func sendTopRatedURL() {
+        
+    }
+    
+    @objc private func sendUpcomingdURL() {
+        
+    }
 }

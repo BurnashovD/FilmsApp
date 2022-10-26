@@ -3,8 +3,10 @@
 
 import UIKit
 
+// Класс отвечает за ячейку с информацией о фильме
 final class FilmTableViewCell: UITableViewCell {
     
+    // MARK: - Visual components
     let cellView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -20,8 +22,6 @@ final class FilmTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
-//        imageView.backgroundColor = .red
-//        imageView.image = UIImage(named: "pirates")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -34,7 +34,6 @@ final class FilmTableViewCell: UITableViewCell {
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.adjustsFontSizeToFitWidth = true
-//        label.backgroundColor = .red
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -59,21 +58,34 @@ final class FilmTableViewCell: UITableViewCell {
         return label
     }()
     
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    // MARK: - Public properties
+    var movieRefresh: Result? {
+        didSet {
+            guard let movieRefresh = movieRefresh else { return }
+            filmNameLabel.text = movieRefresh.title
+            filmRateLabel.text = String(movieRefresh.voteAverage)
+            filmOverviewLabel.text = movieRefresh.overview
+            
+            let imageURL = "http://image.tmdb.org/t/p/w500\(movieRefresh.posterPath)"
+            URLSession.shared.dataTask(with: URL(string: imageURL)!) { (data, response, error) in
+                
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async() { [weak self] in
+                    self?.filmImageView.image = UIImage(data: data)
+                }
+            }.resume()
+        } 
     }
 
+    // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        backgroundColor = UIColor(named: "blueView")
         configUI()
-        
-        // Configure the view for the selected state
     }
     
+    // MARK: - Private methods
     private func configUI() {
+        backgroundColor = UIColor(named: "blueView")
         cellView.addSubview(filmImageView)
         cellView.addSubview(filmNameLabel)
         cellView.addSubview(filmRateLabel)
@@ -85,22 +97,7 @@ final class FilmTableViewCell: UITableViewCell {
         createFilmRatesAnchors()
         createFilmOverviewLabelAnchors()
     }
-    
-    public func refresh(data: Result) {
-        let imageURL = "http://image.tmdb.org/t/p/w500\(data.posterPath)"
-        filmNameLabel.text = data.title
-        filmRateLabel.text = String(data.voteAverage)
-        filmOverviewLabel.text = data.overview
-        URLSession.shared.dataTask(with: URL(string: imageURL)!) { (data, response, error) in
-        
-                guard let data = data, error == nil else { return }
-                DispatchQueue.main.async() { [weak self] in
-                    self?.filmImageView.image = UIImage(data: data)
-                    
-                }
-        }.resume()
-    }
-    
+ 
     private func createViewAnchors() {
         cellView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
         cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
@@ -119,7 +116,6 @@ final class FilmTableViewCell: UITableViewCell {
     private func createFilmNameLabelAnchors() {
         filmNameLabel.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 10).isActive = true
         filmNameLabel.leadingAnchor.constraint(equalTo: filmImageView.trailingAnchor, constant: 15).isActive = true
-//        filmNameLabel.centerXAnchor.constraint(equalTo: filmOverviewLabel.centerXAnchor).isActive = true
         filmNameLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         filmNameLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }

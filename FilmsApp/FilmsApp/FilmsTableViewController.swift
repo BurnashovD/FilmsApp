@@ -3,23 +3,14 @@
 
 import UIKit
 
+// Класс отвечает за показ таблицы с фильмами
 final class FilmsTableViewController: UITableViewController {
     
-    let decoder = JSONDecoder()
-    
+    // MARK: - Private properties
     var movies = [Result]()
-    var movieImage = UIImage()
-    var actualURL = "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1" {
-        willSet {
-            reformMovies()
-            tableView.reloadData()
-            print(newValue)
-            let films = FilmTableViewCell()
-            
-            
-        }
-    }
-    
+    var cellTypes: [CellTypes] = [.filters, .films]
+    var actualURL = "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
+        
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +20,6 @@ final class FilmsTableViewController: UITableViewController {
     }
 
     // MARK: - Private methods
-    
     private func configUI() {
         title = "Фильмы"
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -37,18 +27,16 @@ final class FilmsTableViewController: UITableViewController {
         navigationController?.navigationBar.tintColor = UIColor.red
         view.backgroundColor = UIColor(named: "blueView")
     }
-    
-    
-    
+
     private func configCells() {
         tableView.register(FilmTableViewCell.self, forCellReuseIdentifier: "film")
         tableView.register(FilterTableViewCell.self, forCellReuseIdentifier: "filter")
-        tableView.showsVerticalScrollIndicator = false 
+        tableView.showsVerticalScrollIndicator = false
     }
-    
-    public func reformMovies() {
+
+    private func reformMovies() {
         let session = URLSession.shared
-        
+
         guard let url = URL(string: actualURL) else { return }
         session.dataTask(with: URLRequest(url: url)) {(data, response, error) in
             
@@ -67,6 +55,17 @@ final class FilmsTableViewController: UITableViewController {
     }
 }
 
+extension FilmsTableViewController {
+    enum Constants {
+        
+    }
+    
+    enum CellTypes {
+        case filters
+        case films
+    }
+}
+
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension FilmsTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -74,30 +73,28 @@ extension FilmsTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        let type = cellTypes[section]
+        switch type {
+        case .filters:
             return 1
-        } else if section == 1 {
+        case .films:
             return movies.count
-        }
-        return section
     }
+}
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        switch indexPath.section {
-        case 0:
+        let type = cellTypes[indexPath.section]
+        switch type {
+        case .filters:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "filter", for: indexPath) as? FilterTableViewCell else { return UITableViewCell() }
 
             return cell
-        case 1:
+        case .films:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "film", for: indexPath) as? FilmTableViewCell else { return UITableViewCell() }
-            cell.refresh(data: movies[indexPath.row])
+            cell.movieRefresh = movies[indexPath.row]
             
             return cell
-        default:
-            return UITableViewCell()
         }
-        return UITableViewCell()
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
