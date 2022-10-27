@@ -1,9 +1,5 @@
-//
-//  Movie.swift
-//  FilmsApp
-//
-//  Created by Daniil on 25.10.2022.
-//
+// Models.swift
+// Copyright © RoadMap. All rights reserved.
 
 import Foundation
 /// Movies model
@@ -54,7 +50,7 @@ struct TrailerData: Codable {
 }
 
 struct TrailerResult: Codable {
-    let iso639_1, iso3166_1, name, key: String
+    let iso6391, iso31661, name, key: String
     let publishedAt, site: String
     let size: Int
     let type: String
@@ -62,8 +58,8 @@ struct TrailerResult: Codable {
     let id: String
 
     enum CodingKeys: String, CodingKey {
-        case iso639_1 = "iso_639_1"
-        case iso3166_1 = "iso_3166_1"
+        case iso6391 = "iso_639_1"
+        case iso31661 = "iso_3166_1"
         case name, key
         case publishedAt = "published_at"
         case site, size, type, official, id
@@ -71,13 +67,16 @@ struct TrailerResult: Codable {
 }
 
 /// Actors model
+
 // MARK: - Welcome
+
 struct Welcome: Codable {
     let id: Int
     let cast, crew: [Cast]
 }
 
 // MARK: - Cast
+
 struct Cast: Codable {
     let adult: Bool
     let gender, id: Int
@@ -120,6 +119,3 @@ enum Department: String, Codable {
     case visualEffects = "Visual Effects"
     case writing = "Writing"
 }
-
-
-

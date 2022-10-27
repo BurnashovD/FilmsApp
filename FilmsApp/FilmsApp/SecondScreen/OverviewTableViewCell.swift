@@ -1,16 +1,12 @@
-//
-//  OverviewTableViewCell.swift
-//  FilmsApp
-//
-//  Created by Daniil on 26.10.2022.
-//
+// OverviewTableViewCell.swift
+// Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
 // Класс отвечает за ячейку с описанием к фильму
 final class OverviewTableViewCell: UITableViewCell {
-    
     // MARK: - Visual components
+
     let overviewTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -19,7 +15,7 @@ final class OverviewTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let overviewLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -29,14 +25,16 @@ final class OverviewTableViewCell: UITableViewCell {
         label.lineBreakMode = .byWordWrapping
         return label
     }()
-    
+
     // MARK: - LifeCycle
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         configUI()
     }
-    
+
     // MARK: - Private methods
+
     private func configUI() {
         backgroundColor = UIColor(named: Constants.blueViewColorName)
         selectionStyle = .none
@@ -45,14 +43,14 @@ final class OverviewTableViewCell: UITableViewCell {
         createOverviewTextLabelAnchors()
         createOverviewLabelAnchors()
     }
-    
+
     private func createOverviewTextLabelAnchors() {
         overviewTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         overviewTextLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
         overviewTextLabel.widthAnchor.constraint(equalToConstant: 150).isActive = true
         overviewTextLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
-    
+
     private func createOverviewLabelAnchors() {
         overviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
