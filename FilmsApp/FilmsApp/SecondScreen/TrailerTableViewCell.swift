@@ -22,7 +22,7 @@ final class TrailerTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private var secondFilmImageView: UIImageView = {
+     var secondFilmImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "pirates")
         imageView.layer.masksToBounds = true

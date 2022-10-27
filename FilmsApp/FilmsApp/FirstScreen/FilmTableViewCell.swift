@@ -18,7 +18,7 @@ final class FilmTableViewCell: UITableViewCell {
         return view
     }()
     
-    private let filmImageView: UIImageView = {
+     let filmImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
@@ -26,7 +26,7 @@ final class FilmTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private let filmNameLabel: UILabel = {
+     let filmNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textColor = .white
@@ -47,7 +47,7 @@ final class FilmTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let filmOverviewLabel: UILabel = {
+     let filmOverviewLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         label.numberOfLines = 0
@@ -58,6 +58,8 @@ final class FilmTableViewCell: UITableViewCell {
         return label
     }()
     
+    var filmId = ""
+    
     // MARK: - Public properties
     var movieRefresh: Result? {
         didSet {
@@ -65,6 +67,7 @@ final class FilmTableViewCell: UITableViewCell {
             filmNameLabel.text = movieRefresh.title
             filmRateLabel.text = String(movieRefresh.voteAverage)
             filmOverviewLabel.text = movieRefresh.overview
+            filmId = String(movieRefresh.id)
             
             let imageURL = "http://image.tmdb.org/t/p/w500\(movieRefresh.posterPath)"
             guard let url = URL(string: imageURL) else { return }
@@ -77,6 +80,7 @@ final class FilmTableViewCell: UITableViewCell {
             }.resume()
         } 
     }
+    
 
     // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {

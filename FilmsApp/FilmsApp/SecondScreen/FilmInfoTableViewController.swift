@@ -11,15 +11,22 @@ final class FilmInfoTableViewController: UITableViewController {
     
     private let cellTypes: [CellTypes] = [.images, .overview, .actors]
     
+    var selectedFilmOverviewText = ""
+    var image = UIImage()
+    var filmId = ""
+    
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configUI()
+        sendOverview()
     }
     
     // MARK: - Private methods
     private func configUI() {
-        title = "Крестный отец"
+//        title = "Крестный отец"
         navigationController?.navigationBar.largeTitleTextAttributes =
         [NSAttributedString.Key.foregroundColor: UIColor.white,
          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30, weight: .bold)]
@@ -31,6 +38,10 @@ final class FilmInfoTableViewController: UITableViewController {
         tableView.register(TrailerTableViewCell.self, forCellReuseIdentifier: "trailer")
         tableView.register(OverviewTableViewCell.self, forCellReuseIdentifier: "overview")
         tableView.register(ActorsTableViewCell.self, forCellReuseIdentifier: "actors")
+    }
+    
+    private func sendOverview() {
+        
     }
 }
 
@@ -58,10 +69,12 @@ extension FilmInfoTableViewController {
         switch type {
         case .images:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "trailer", for: indexPath) as? TrailerTableViewCell else { return UITableViewCell() }
+            cell.secondFilmImageView.image = image
 
             return cell
         case .overview:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "overview", for: indexPath) as? OverviewTableViewCell else { return UITableViewCell() }
+            cell.overviewLabel.text = selectedFilmOverviewText
 
             return cell
         case .actors:

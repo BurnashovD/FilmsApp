@@ -21,15 +21,15 @@ final class OverviewTableViewCell: UITableViewCell {
     let overviewLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "Один из лучших учеников школы Рихито Садзё на уроках пения даже не раскрывает рта. Его одноклассника Хикару это заинтересовало: может, ему не нравится петь или же он слишком хорош для пения? Возвращаясь в класс, Хикару замечает Рихито, который старательно разучивает текст песни. Хикару решает помочь своему однокласснику получше разобраться в нотах, а потом предлагает попрактиковаться в пении вместе в свободное время, ведь фестиваль не за горами. Оказалось, что Рихито попросту не видит слова песни на доске, из-за слабости своих очков. Два одноклассника постепенно становятся ближе друг другу, и совсем не как друзья."
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-//        label.backgroundColor = .black
         return label
     }()
     
+    let filmInfo = FilmsTableViewController()
+
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

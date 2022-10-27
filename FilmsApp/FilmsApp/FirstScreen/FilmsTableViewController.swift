@@ -10,6 +10,8 @@ final class FilmsTableViewController: UITableViewController {
     var movies = [Result]()
     var cellTypes: [CellTypes] = [.filters, .films]
     var actualURL = Constants.topRatedFilmsURLString
+    var sendOverviewText: (() -> Void)?
+    var movieRefresh: Result?
         
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -121,9 +123,22 @@ extension FilmsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let filmInfoTVC = FilmInfoTableViewController()
+        let overview = OverviewTableViewCell()
+        let selectedCell = tableView.indexPathForSelectedRow
+        let current = tableView.cellForRow(at: selectedCell!)! as! FilmTableViewCell
+        
+        filmInfoTVC.title = current.filmNameLabel.text
+        filmInfoTVC.selectedFilmOverviewText = current.filmOverviewLabel.text!
+        filmInfoTVC.image = current.filmImageView.image!
+        filmInfoTVC.filmId = current.filmId
+        
+        
+        
+   
+        
         tableView.deselectRow(at: indexPath, animated: true)
-//            guard indexPath.row == 1 else { return }
-            let filmInfoTVC = FilmInfoTableViewController()
             navigationController?.pushViewController(filmInfoTVC, animated: true)
     }
 
