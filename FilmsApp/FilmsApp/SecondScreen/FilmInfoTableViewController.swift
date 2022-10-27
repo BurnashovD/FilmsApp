@@ -6,6 +6,7 @@ import UIKit
 // Класс отвечает за информацию о выбранном фильме
 final class FilmInfoTableViewController: UITableViewController {
     // MARK: - Private properties
+
     private let cellTypes: [CellTypes] = [.images, .overview, .actors]
 
     // MARK: - Public properties
