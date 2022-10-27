@@ -13,7 +13,6 @@ final class TrailerTableViewCell: UITableViewCell {
     // MARK: - Visual components
     private var filmImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "anime")
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
         imageView.contentMode = .scaleAspectFit
@@ -47,11 +46,13 @@ final class TrailerTableViewCell: UITableViewCell {
     
     // MARK: - Public properties
     var sendOpenWebPageAction: (() -> Void)?
+    var backdropImageId = String()
     
     // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         configUI()
+        getTrailerImage()
     }
     
     // MARK: - Private methods
@@ -86,6 +87,18 @@ final class TrailerTableViewCell: UITableViewCell {
         secondFilmImageView.leadingAnchor.constraint(equalTo: filmImageView.trailingAnchor, constant: 60).isActive = true
         secondFilmImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         secondFilmImageView.heightAnchor.constraint(equalToConstant: 210).isActive = true
+    }
+    
+    private func getTrailerImage() {
+        let imageURL = "http://image.tmdb.org/t/p/w500\(backdropImageId)"
+        guard let url = URL(string: imageURL) else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async() { [weak self] in
+                self?.filmImageView.image = UIImage(data: data)
+            }
+        }.resume()
     }
     
     @objc private func openTrailerWebPageAction() {

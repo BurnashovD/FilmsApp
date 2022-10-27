@@ -19,6 +19,7 @@ final class TrailerWebPageViewController: UIViewController {
     }()
 
     // MARK: Public properties
+    var backdropImageId = String()
     var trailerURLString = "https://www.youtube.com/watch?v=cpJMSOvnwTI&list=PLmTuDg46zmKD6nI5Meg0_atl0qY-UgTtP&index=27"
     
     // MARK: - LifeCycle

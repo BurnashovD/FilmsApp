@@ -63,6 +63,7 @@ final class ActorsCollectionViewCell: UICollectionViewCell {
     }
 }
 
+///  Constants
 extension ActorsCollectionViewCell {
     enum Constants {
         static let errorText = "init(coder:) has not been implemented"

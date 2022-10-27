@@ -59,6 +59,7 @@ final class FilmTableViewCell: UITableViewCell {
     }()
     
     var filmId = ""
+    var backdropImageId = String()
     
     // MARK: - Public properties
     var movieRefresh: Result? {
@@ -68,6 +69,7 @@ final class FilmTableViewCell: UITableViewCell {
             filmRateLabel.text = String(movieRefresh.voteAverage)
             filmOverviewLabel.text = movieRefresh.overview
             filmId = String(movieRefresh.id)
+            backdropImageId = movieRefresh.backdropPath
             
             let imageURL = "http://image.tmdb.org/t/p/w500\(movieRefresh.posterPath)"
             guard let url = URL(string: imageURL) else { return }

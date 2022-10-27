@@ -17,6 +17,7 @@ final class FilmInfoTableViewController: UITableViewController {
     var selectedFilmOverviewText = ""
     var posterimage = UIImage()
     var filmId = ""
+    var backdropImageId = String()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -72,6 +73,7 @@ extension FilmInfoTableViewController {
         case .images:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.trailerCellIdentifier, for: indexPath) as? TrailerTableViewCell else { return UITableViewCell() }
             cell.secondFilmImageView.image = posterimage
+            cell.backdropImageId = backdropImageId
             
             cell.sendOpenWebPageAction = {
                 let trailerWebPageVC = TrailerWebPageViewController()

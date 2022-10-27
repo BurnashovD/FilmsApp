@@ -133,6 +133,7 @@ extension FilmsTableViewController {
         filmInfoTVC.selectedFilmOverviewText = text
         filmInfoTVC.posterimage = image
         filmInfoTVC.filmId = current.filmId
+        filmInfoTVC.backdropImageId = current.backdropImageId
         
         navigationController?.pushViewController(filmInfoTVC, animated: true)
     }
