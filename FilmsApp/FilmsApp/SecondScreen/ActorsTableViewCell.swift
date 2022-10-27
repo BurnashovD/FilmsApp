@@ -7,8 +7,10 @@
 
 import UIKit
 
+// Класс отвечает за ячейку с актерами
 final class ActorsTableViewCell: UITableViewCell {
     
+    // MARK: - Visual components
     let actorsCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 1, left: 10, bottom: 10, right: 10)
@@ -17,31 +19,22 @@ final class ActorsTableViewCell: UITableViewCell {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.showsHorizontalScrollIndicator = false
-        collection.backgroundColor = UIColor(named: "blueView")
-        
-//        collection.backgroundColor = .red
+        collection.backgroundColor = UIColor(named: Constants.blueViewColorName)
         return collection
     }()
     
-    let d: UILabel = {
-        let label = UILabel()
-//        label.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-        label.backgroundColor = .gray
-        label.text = "HAHAHA"
-        return label
-    }()
-    
-
+    // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         configUI()
     }
 
+    // MARK: - Private func
     private func configUI() {
         backgroundColor = UIColor.gray
         actorsCollectionView.delegate = self
         actorsCollectionView.dataSource = self
-        actorsCollectionView.register(ActorsCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        actorsCollectionView.register(ActorsCollectionViewCell.self, forCellWithReuseIdentifier: Constants.cellIdentifier)
         contentView.addSubview(actorsCollectionView)
         createCollectionViewAnchors()
     }
@@ -55,7 +48,15 @@ final class ActorsTableViewCell: UITableViewCell {
     }
 }
 
+/// Constants
+extension ActorsTableViewCell {
+    enum Constants {
+        static let cellIdentifier = "cell"
+        static let blueViewColorName = "blueView"
+    }
+}
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension ActorsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -63,12 +64,8 @@ extension ActorsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ActorsCollectionViewCell else { return UICollectionViewCell() }
-//        cell.backgroundColor = .red
-        
-        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as? ActorsCollectionViewCell else { return UICollectionViewCell() }
+
         return cell
     }
-    
-    
 }

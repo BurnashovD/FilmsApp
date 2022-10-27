@@ -125,21 +125,16 @@ extension FilmsTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let filmInfoTVC = FilmInfoTableViewController()
-        let overview = OverviewTableViewCell()
         let selectedCell = tableView.indexPathForSelectedRow
-        let current = tableView.cellForRow(at: selectedCell!)! as! FilmTableViewCell
+        
+        guard let selectedCell = selectedCell, let current = tableView.cellForRow(at: selectedCell) as? FilmTableViewCell, let image = current.filmImageView.image, let text = current.filmOverviewLabel.text else { return }
         
         filmInfoTVC.title = current.filmNameLabel.text
-        filmInfoTVC.selectedFilmOverviewText = current.filmOverviewLabel.text!
-        filmInfoTVC.image = current.filmImageView.image!
+        filmInfoTVC.selectedFilmOverviewText = text
+        filmInfoTVC.posterimage = image
         filmInfoTVC.filmId = current.filmId
         
-        
-        
-   
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-            navigationController?.pushViewController(filmInfoTVC, animated: true)
+        navigationController?.pushViewController(filmInfoTVC, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

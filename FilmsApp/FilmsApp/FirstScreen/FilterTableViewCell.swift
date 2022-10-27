@@ -11,7 +11,7 @@ import UIKit
 final class FilterTableViewCell: UITableViewCell {
     
     // MARK: - Visual components
-    let firstButton: UIButton = {
+    private let topRatedButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: Constants.buttonsColorName)
         button.layer.cornerRadius = 7
@@ -21,7 +21,7 @@ final class FilterTableViewCell: UITableViewCell {
         return button
     }()
     
-    let secondButton: UIButton = {
+    private let upcomingButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: Constants.buttonsColorName)
         button.layer.cornerRadius = 7
@@ -31,7 +31,7 @@ final class FilterTableViewCell: UITableViewCell {
         return button
     }()
     
-    let thirdButton: UIButton = {
+    private let popularButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: Constants.buttonsColorName)
         button.layer.cornerRadius = 7
@@ -57,37 +57,37 @@ final class FilterTableViewCell: UITableViewCell {
     // MARK: - Private methods
     private func configUI() {
         selectionStyle = .none
-        contentView.addSubview(firstButton)
-        contentView.addSubview(secondButton)
-        contentView.addSubview(thirdButton)
-        firstButton.addTarget(self, action: #selector(sendTopRatedURL), for: .touchUpInside)
-        secondButton.addTarget(self, action: #selector(sendUpcomingdURL), for: .touchUpInside)
-        thirdButton.addTarget(self, action: #selector(sendPopularURL), for: .touchUpInside)
+        contentView.addSubview(topRatedButton)
+        contentView.addSubview(upcomingButton)
+        contentView.addSubview(popularButton)
+        topRatedButton.addTarget(self, action: #selector(sendTopRatedURL), for: .touchUpInside)
+        upcomingButton.addTarget(self, action: #selector(sendUpcomingdURL), for: .touchUpInside)
+        popularButton.addTarget(self, action: #selector(sendPopularURL), for: .touchUpInside)
         createFirstButtonAnchors()
         createSecondButtonAnchors()
         createThirdButtonAnchors()
     }
     
     private func createFirstButtonAnchors() {
-        firstButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        firstButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
-        firstButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
-        firstButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        topRatedButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        topRatedButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        topRatedButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
+        topRatedButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     private func createSecondButtonAnchors() {
-        secondButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        secondButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
-        secondButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
-        secondButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        upcomingButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        upcomingButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        upcomingButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
+        upcomingButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     private func createThirdButtonAnchors() {
-        thirdButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
-        thirdButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
-        thirdButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
-        thirdButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        thirdButton.heightAnchor.constraint(equalToConstant: 30).isActive = false
+        popularButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        popularButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        popularButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
+        popularButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        popularButton.heightAnchor.constraint(equalToConstant: 30).isActive = false
     }
     
     @objc private func sendTopRatedURL() {

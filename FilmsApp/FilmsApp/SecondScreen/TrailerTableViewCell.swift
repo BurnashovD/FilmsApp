@@ -11,7 +11,6 @@ import UIKit
 final class TrailerTableViewCell: UITableViewCell {
     
     // MARK: - Visual components
-    
     private var filmImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "anime")
@@ -19,12 +18,12 @@ final class TrailerTableViewCell: UITableViewCell {
         imageView.layer.cornerRadius = 15
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
      var secondFilmImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "pirates")
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
         imageView.contentMode = .scaleAspectFit
@@ -37,13 +36,18 @@ final class TrailerTableViewCell: UITableViewCell {
         scroll.contentSize = CGSize(width: 780 , height: 200)
         scroll.translatesAutoresizingMaskIntoConstraints = false
         scroll.addSubview(filmImageView)
-         scroll.addSubview(secondFilmImageView)
+        scroll.addSubview(secondFilmImageView)
         scroll.isPagingEnabled = true
         scroll.showsHorizontalScrollIndicator = false
         return scroll
     }()
     
-
+    // MARK: - Private properties
+    private lazy var tapFilmImageViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(openTrailerWebPageAction))
+    
+    // MARK: - Public properties
+    var sendOpenWebPageAction: (() -> Void)?
+    
     // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -58,6 +62,7 @@ final class TrailerTableViewCell: UITableViewCell {
         createScrollViewAnchors()
         createFilmImageViewAnchors()
         createSecondImageviewAnchors()
+        filmImageView.addGestureRecognizer(tapFilmImageViewRecognizer)
     }
     
     private func createScrollViewAnchors() {
@@ -81,6 +86,10 @@ final class TrailerTableViewCell: UITableViewCell {
         secondFilmImageView.leadingAnchor.constraint(equalTo: filmImageView.trailingAnchor, constant: 60).isActive = true
         secondFilmImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         secondFilmImageView.heightAnchor.constraint(equalToConstant: 210).isActive = true
+    }
+    
+    @objc private func openTrailerWebPageAction() {
+        self.sendOpenWebPageAction?()
     }
 }
 

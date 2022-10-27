@@ -7,12 +7,14 @@
 
 import UIKit
 
+// Класс отвечает за ячейку с описанием к фильму
 final class OverviewTableViewCell: UITableViewCell {
     
+    // MARK: - Visual components
     let overviewTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "Описание"
+        label.text = Constants.overviewText
         label.font = UIFont.systemFont(ofSize: 25, weight: .heavy)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,16 +30,15 @@ final class OverviewTableViewCell: UITableViewCell {
         return label
     }()
     
-    let filmInfo = FilmsTableViewController()
-
-    
+    // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         configUI()
     }
     
+    // MARK: - Private methods
     private func configUI() {
-        backgroundColor = UIColor(named: "blueView")
+        backgroundColor = UIColor(named: Constants.blueViewColorName)
         selectionStyle = .none
         contentView.addSubview(overviewTextLabel)
         contentView.addSubview(overviewLabel)
@@ -59,5 +60,12 @@ final class OverviewTableViewCell: UITableViewCell {
         overviewLabel.topAnchor.constraint(equalTo: overviewTextLabel.topAnchor, constant: 0).isActive = true
         overviewLabel.heightAnchor.constraint(equalToConstant: 280).isActive = true
     }
+}
 
+/// Constants
+extension OverviewTableViewCell {
+    enum Constants {
+        static let blueViewColorName = "blueView"
+        static let overviewText = "Описание"
+    }
 }
