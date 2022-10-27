@@ -14,15 +14,18 @@ final class FilmInfoTableViewController: UITableViewController {
     private let cellTypes: [CellTypes] = [.images, .overview, .actors]
     
     // MARK: - Public properties
-    var selectedFilmOverviewText = ""
+    var selectedFilmOverviewText = String()
     var posterimage = UIImage()
-    var filmId = ""
+    var filmId = String()
     var backdropImageId = String()
+    var trailersResults = [TrailerResult]()
+    var trailerURL = String()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        getTrailerURL()
     }
     
     // MARK: - Private methods
@@ -38,6 +41,24 @@ final class FilmInfoTableViewController: UITableViewController {
         tableView.register(TrailerTableViewCell.self, forCellReuseIdentifier: Constants.trailerCellIdentifier)
         tableView.register(OverviewTableViewCell.self, forCellReuseIdentifier: Constants.overviewCellIdentifier)
         tableView.register(ActorsTableViewCell.self, forCellReuseIdentifier: Constants.actorsCellIdentifier)
+    }
+    
+    private func getTrailerURL() {
+        let session = URLSession.shared
+        let actualURL = "https://api.themoviedb.org/3/movie/\(filmId)/videos?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU"
+        guard let url = URL(string: actualURL) else { return }
+        session.dataTask(with: URLRequest(url: url)) {(data, response, error) in
+            
+            do {
+                guard let newData = data else { return }
+                let result = try JSONDecoder().decode(TrailerData.self, from: newData)
+                DispatchQueue.main.async {
+                    self.trailersResults = result.results
+                }
+            } catch {
+                print(error)
+            }
+        }.resume()
     }
 }
 
@@ -75,8 +96,11 @@ extension FilmInfoTableViewController {
             cell.secondFilmImageView.image = posterimage
             cell.backdropImageId = backdropImageId
             
-            cell.sendOpenWebPageAction = {
+            cell.sendOpenWebPageAction = { [self] in
                 let trailerWebPageVC = TrailerWebPageViewController()
+                trailerWebPageVC.movieId = self.filmId
+                trailerWebPageVC.trailerURLString = self.trailerURL
+                trailerWebPageVC.refresh = trailersResults[indexPath.section]
                 self.present(trailerWebPageVC, animated: true)
             }
             return cell

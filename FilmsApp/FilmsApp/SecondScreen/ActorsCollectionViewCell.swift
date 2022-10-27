@@ -59,7 +59,6 @@ final class ActorsCollectionViewCell: UICollectionViewCell {
         actorImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2).isActive = true
         actorImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2).isActive = true
         actorImageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
-    
     }
 }
 

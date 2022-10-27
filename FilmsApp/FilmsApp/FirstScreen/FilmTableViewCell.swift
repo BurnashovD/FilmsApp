@@ -58,7 +58,7 @@ final class FilmTableViewCell: UITableViewCell {
         return label
     }()
     
-    var filmId = ""
+    var filmId = String()
     var backdropImageId = String()
     
     // MARK: - Public properties

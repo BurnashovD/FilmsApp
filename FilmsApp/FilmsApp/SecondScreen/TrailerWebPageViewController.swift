@@ -10,17 +10,23 @@ import WebKit
 
 // Класс открывает контроллер с WebView с ссылкой на трейлер к фильму
 final class TrailerWebPageViewController: UIViewController {
-
+    
     // MARK: - Visual components
     private let trailerWebView: WKWebView = {
         let webConfig = WKWebViewConfiguration()
         let web = WKWebView(frame: .zero, configuration: webConfig)
         return web
     }()
-
+    
     // MARK: Public properties
-    var backdropImageId = String()
-    var trailerURLString = "https://www.youtube.com/watch?v=cpJMSOvnwTI&list=PLmTuDg46zmKD6nI5Meg0_atl0qY-UgTtP&index=27"
+    var movieId = String()
+    var trailerURLString = String()
+    var refresh: TrailerResult? {
+        didSet {
+            guard let refreshKey = refresh?.key else { return }
+            trailerURLString = "https://www.youtube.com/watch?v=\(refreshKey)"
+        }
+    }
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -36,3 +42,4 @@ final class TrailerWebPageViewController: UIViewController {
         view = trailerWebView
     }
 }
+    

@@ -11,7 +11,6 @@ final class FilmsTableViewController: UITableViewController {
     var cellTypes: [CellTypes] = [.filters, .films]
     var actualURL = Constants.topRatedFilmsURLString
     var sendOverviewText: (() -> Void)?
-    var movieRefresh: Result?
         
     // MARK: - LifeCycle
     override func viewDidLoad() {
