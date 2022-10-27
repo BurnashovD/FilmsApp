@@ -6,7 +6,7 @@ import UIKit
 // Класс отвечает за показ таблицы с фильмами
 final class FilmsTableViewController: UITableViewController {
     
-    // MARK: - Private properties
+    // MARK: - Public properties
     var movies = [Result]()
     var cellTypes: [CellTypes] = [.filters, .films]
     var actualURL = Constants.topRatedFilmsURLString

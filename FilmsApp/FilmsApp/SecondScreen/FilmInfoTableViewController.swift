@@ -18,13 +18,15 @@ final class FilmInfoTableViewController: UITableViewController {
     var posterimage = UIImage()
     var filmId = String()
     var backdropImageId = String()
-    var trailersResults = [TrailerResult]()
     var trailerURL = String()
+    var trailersResults = [TrailerResult]()
+    var actorsResults = [Cast]()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        getActorsInfo()
         getTrailerURL()
     }
     
@@ -33,6 +35,7 @@ final class FilmInfoTableViewController: UITableViewController {
         navigationController?.navigationBar.largeTitleTextAttributes =
         [NSAttributedString.Key.foregroundColor: UIColor.white,
          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30, weight: .bold)]
+        navigationController?.navigationBar.tintColor = .black
         view.backgroundColor = UIColor(named: Constants.blueViewColorName)
         configCell()
     }
@@ -55,6 +58,24 @@ final class FilmInfoTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                     self.trailersResults = result.results
                 }
+            } catch {
+                print(error)
+            }
+        }.resume()
+    }
+    
+    private func getActorsInfo() {
+        let session = URLSession.shared
+        let actualURL = "https://api.themoviedb.org/3/movie/\(filmId)/credits?api_key=56c45ba32cd76399770966658bf65ca0&language=en-US"
+        guard let url = URL(string: actualURL) else { return }
+        session.dataTask(with: URLRequest(url: url)) {(data, response, error) in
+            
+            do {
+                guard let newData = data else { return }
+                let result = try JSONDecoder().decode(Welcome.self, from: newData)
+                
+                    self.actorsResults = result.cast
+
             } catch {
                 print(error)
             }
@@ -113,6 +134,8 @@ extension FilmInfoTableViewController {
             
         case .actors:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.actorsCellIdentifier, for: indexPath) as? ActorsTableViewCell else { return UITableViewCell() }
+            cell.filmId = filmId
+            cell.actorsResults = actorsResults
             
             return cell
         }

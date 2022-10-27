@@ -23,6 +23,10 @@ final class ActorsTableViewCell: UITableViewCell {
         return collection
     }()
     
+    // MARK: - Public properties
+    var filmId = String()
+    var actorsResults = [Cast]()
+    
     // MARK: - LifeCycle
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -60,12 +64,13 @@ extension ActorsTableViewCell {
 extension ActorsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15
+        return actorsResults.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as? ActorsCollectionViewCell else { return UICollectionViewCell() }
 
+        cell.refreshActors = actorsResults[indexPath.row]
         return cell
     }
 }
