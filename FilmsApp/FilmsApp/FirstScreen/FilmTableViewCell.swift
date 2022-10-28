@@ -145,6 +145,7 @@ final class FilmTableViewCell: UITableViewCell {
     }
 }
 
+/// Constants
 extension FilmTableViewCell {
     enum Constants {
         static let cellViewColorName = "cellViewColor"
