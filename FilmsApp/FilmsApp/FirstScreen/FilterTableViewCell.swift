@@ -102,6 +102,7 @@ final class FilterTableViewCell: UITableViewCell {
     }
 }
 
+/// Constants
 extension FilterTableViewCell {
     enum Constants {
         static let buttonsColorName = "buttonsColor"

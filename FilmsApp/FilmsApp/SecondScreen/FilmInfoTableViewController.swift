@@ -75,7 +75,7 @@ final class FilmInfoTableViewController: UITableViewController {
 
             do {
                 guard let newData = data else { return }
-                let result = try JSONDecoder().decode(Welcome.self, from: newData)
+                let result = try JSONDecoder().decode(ActorResult.self, from: newData)
 
                 self.actorsResults = result.cast
 

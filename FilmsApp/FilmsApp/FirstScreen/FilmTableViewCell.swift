@@ -58,11 +58,10 @@ final class FilmTableViewCell: UITableViewCell {
         return label
     }()
 
-    var filmId = String()
-    var backdropImageId = String()
-
     // MARK: - Public properties
 
+    var filmId = String()
+    var backdropImageId = String()
     var movieRefresh: Result? {
         didSet {
             guard let movieRefresh = movieRefresh else { return }

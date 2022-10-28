@@ -5,10 +5,13 @@ import UIKit
 
 // Класс отвечает за показ таблицы с фильмами
 final class FilmsTableViewController: UITableViewController {
+    // MARK: - Private properties
+
+    private let cellTypes: [CellTypes] = [.filters, .films]
+
     // MARK: - Public properties
 
     var movies = [Result]()
-    var cellTypes: [CellTypes] = [.filters, .films]
     var actualURL = Constants.topRatedFilmsURLString
     var sendOverviewText: (() -> Void)?
 

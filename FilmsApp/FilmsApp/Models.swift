@@ -2,6 +2,7 @@
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
+
 /// Movies model
 struct MovieResult: Codable {
     let page: Int
@@ -68,14 +69,10 @@ struct TrailerResult: Codable {
 
 /// Actors model
 
-// MARK: - Welcome
-
-struct Welcome: Codable {
+struct ActorResult: Codable {
     let id: Int
     let cast, crew: [Cast]
 }
-
-// MARK: - Cast
 
 struct Cast: Codable {
     let adult: Bool
