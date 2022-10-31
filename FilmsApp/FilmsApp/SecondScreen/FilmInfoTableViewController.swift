@@ -156,7 +156,7 @@ extension FilmInfoTableViewController {
                 withIdentifier: Constants.overviewCellIdentifier,
                 for: indexPath
             ) as? OverviewTableViewCell else { return UITableViewCell() }
-            cell.overviewLabel.text = selectedFilmOverviewText
+            cell.refresh(filmInfo: self)
 
             return cell
 
