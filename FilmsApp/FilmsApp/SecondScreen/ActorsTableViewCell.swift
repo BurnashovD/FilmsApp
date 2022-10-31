@@ -21,7 +21,7 @@ final class ActorsTableViewCell: UITableViewCell {
 
     // MARK: - Public properties
 
-    var filmId = String()
+    var filmId = ""
     var actorsResults = [Cast]()
 
     // MARK: - LifeCycle
@@ -32,6 +32,11 @@ final class ActorsTableViewCell: UITableViewCell {
     }
 
     // MARK: - Private func
+
+    public func refresh(tvc: FilmInfoTableViewController) {
+        filmId = tvc.filmId
+        actorsResults = tvc.actorsResults
+    }
 
     private func configUI() {
         backgroundColor = UIColor.gray

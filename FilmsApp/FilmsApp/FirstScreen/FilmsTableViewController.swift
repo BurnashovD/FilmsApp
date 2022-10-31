@@ -11,22 +11,22 @@ final class FilmsTableViewController: UITableViewController {
 
     // MARK: - Public properties
 
-    var movies = [Result]()
-    var actualURL = Constants.topRatedFilmsURLString
-    var sendOverviewText: (() -> Void)?
+    private var movies = [Result]()
+    private var actualURL = Constants.topRatedFilmsURLString
+    private var sendOverviewText: (() -> Void)?
 
     // MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configUI()
+        configNavigationBar()
         configCells()
         reformMovies()
     }
 
     // MARK: - Private methods
 
-    private func configUI() {
+    private func configNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = Constants.filmsText
         navigationController?.navigationBar
@@ -59,6 +59,11 @@ final class FilmsTableViewController: UITableViewController {
                 print(Constants.errorText, error)
             }
         }.resume()
+    }
+
+    private func getCategoriesURL(stringURL: String) {
+        actualURL = stringURL
+        reformMovies()
     }
 }
 
@@ -109,21 +114,17 @@ extension FilmsTableViewController {
                 withIdentifier: Constants.filterCellIdentifier,
                 for: indexPath
             ) as? FilterTableViewCell else { return UITableViewCell() }
-            cell.sendTopRatedURLClosure = {
-                self.actualURL = Constants.topRatedFilmsURLString
-                self.reformMovies()
+            cell.sendURLClosure = { url in
+                self.getCategoriesURL(stringURL: url)
             }
 
             cell.sendUpcomingURLClosure = {
-                self.actualURL = Constants.upcomingFilmsURLString
-                self.reformMovies()
+                self.getCategoriesURL(stringURL: Constants.upcomingFilmsURLString)
             }
 
             cell.sendPopularURLClosure = {
-                self.actualURL = Constants.popularFilmsURLString
-                self.reformMovies()
+                self.getCategoriesURL(stringURL: Constants.popularFilmsURLString)
             }
-
             return cell
         case .films:
             guard let cell = tableView.dequeueReusableCell(
@@ -138,19 +139,11 @@ extension FilmsTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let filmInfoTVC = FilmInfoTableViewController()
         let selectedCell = tableView.indexPathForSelectedRow
-
         guard let selectedCell = selectedCell,
-              let current = tableView.cellForRow(at: selectedCell) as? FilmTableViewCell,
-              let image = current.filmImageView.image, let text = current.filmOverviewLabel.text else { return }
-
-        filmInfoTVC.title = current.filmNameLabel.text
-        filmInfoTVC.selectedFilmOverviewText = text
-        filmInfoTVC.posterimage = image
-        filmInfoTVC.filmId = current.filmId
-        filmInfoTVC.backdropImageId = current.backdropImageId
-
+              let movie = tableView.cellForRow(at: selectedCell) as? FilmTableViewCell else { return }
+        let filmInfoTVC = FilmInfoTableViewController()
+        filmInfoTVC.movies = movie
         navigationController?.pushViewController(filmInfoTVC, animated: true)
     }
 
