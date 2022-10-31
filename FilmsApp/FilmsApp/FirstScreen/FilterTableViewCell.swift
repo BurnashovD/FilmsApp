@@ -106,8 +106,11 @@ extension FilterTableViewCell {
         static let topRatedText = "Top rated"
         static let upcomingText = "Upcoming"
         static let popularText = "Popular"
-        static let topRatedURLStrang = "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
-        static let upcomingURLString = "https://api.themoviedb.org/3/movie/upcoming?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
-        static let popularURLString = "https://api.themoviedb.org/3/movie/popular?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-Ru&page=1"
+        static let topRatedURLStrang =
+            "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
+        static let upcomingURLString =
+            "https://api.themoviedb.org/3/movie/upcoming?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
+        static let popularURLString =
+            "https://api.themoviedb.org/3/movie/popular?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-Ru&page=1"
     }
 }

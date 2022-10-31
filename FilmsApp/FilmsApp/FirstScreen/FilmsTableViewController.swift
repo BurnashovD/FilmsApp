@@ -7,16 +7,10 @@ import UIKit
 final class FilmsTableViewController: UITableViewController {
     // MARK: - Public properties
 
-<<<<<<< HEAD
-    var movies = [Result]()
     var cellTypes: [CellTypes] = [.filters, .films]
-    var actualURL = Constants.topRatedFilmsURLString
-    var sendOverviewText: (() -> Void)?
-=======
     private var movies = [Result]()
     private var actualURL = Constants.topRatedFilmsURLString
     private var sendOverviewText: (() -> Void)?
->>>>>>> 87a7c29 (Исправил 42/43 замечаний)
 
     // MARK: - LifeCycle
 
@@ -121,19 +115,6 @@ extension FilmsTableViewController {
                 self.getCategoriesURL(stringURL: url)
             }
 
-            cell.sendUpcomingURLClosure = {
-<<<<<<< HEAD
-                self.actualURL = Constants.upcomingFilmsURLString
-                self.reformMovies()
-                
-=======
-                self.getCategoriesURL(stringURL: Constants.upcomingFilmsURLString)
->>>>>>> 87a7c29 (Исправил 42/43 замечаний)
-            }
-
-            cell.sendPopularURLClosure = {
-                self.getCategoriesURL(stringURL: Constants.popularFilmsURLString)
-            }
             return cell
         case .films:
             guard let cell = tableView.dequeueReusableCell(
