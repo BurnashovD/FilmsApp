@@ -16,12 +16,12 @@ final class TrailerWebPageViewController: UIViewController {
 
     // MARK: Public properties
 
-    var movieId = ""
-    var trailerURLString = ""
+    var movieId = String()
+    var trailerURLString = String()
     var refresh: TrailerResult? {
         didSet {
             guard let refreshKey = refresh?.key else { return }
-            trailerURLString = "\(Constants.trailerURLString)\(refreshKey)"
+            trailerURLString = "https://www.youtube.com/watch?v=\(refreshKey)"
         }
     }
 
@@ -39,11 +39,5 @@ final class TrailerWebPageViewController: UIViewController {
         let productRequest = URLRequest(url: trailerURL)
         trailerWebView.load(productRequest)
         view = trailerWebView
-    }
-}
-
-extension TrailerWebPageViewController {
-    enum Constants {
-        static let trailerURLString = "https://www.youtube.com/watch?v="
     }
 }

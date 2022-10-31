@@ -15,20 +15,9 @@ final class FilmInfoTableViewController: UITableViewController {
     var posterimage = UIImage()
     var filmId = String()
     var backdropImageId = String()
-    private var trailerURL = String()
-    private var trailersResults = [TrailerResult]()
+    var trailerURL = String()
+    var trailersResults = [TrailerResult]()
     var actorsResults = [Cast]()
-    var movies: FilmTableViewCell? {
-        didSet {
-            guard let text = movies?.filmOverviewLabel.text, let image = movies?.filmImageView.image,
-                  let filmId = movies?.filmId, let backdropImageId = movies?.backdropImageId else { return }
-            title = movies?.filmNameLabel.text
-            selectedFilmOverviewText = text
-            posterimage = image
-            self.filmId = filmId
-            self.backdropImageId = backdropImageId
-        }
-    }
 
     // MARK: - LifeCycle
 
@@ -61,15 +50,15 @@ final class FilmInfoTableViewController: UITableViewController {
     private func getTrailerURL() {
         let session = URLSession.shared
         let actualURL =
-            "\(Constants.trailerStartActualURLString)\(filmId)\(Constants.trailerEndActualURLString)"
+            "https://api.themoviedb.org/3/movie/\(filmId)/videos?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU"
         guard let url = URL(string: actualURL) else { return }
         session.dataTask(with: URLRequest(url: url)) { data, _, error in
 
             do {
                 guard let newData = data else { return }
                 let result = try JSONDecoder().decode(TrailerData.self, from: newData)
-                DispatchQueue.main.async { [weak self] in
-                    self?.trailersResults = result.results
+                DispatchQueue.main.async {
+                    self.trailersResults = result.results
                 }
             } catch {
                 print(error)
@@ -80,18 +69,14 @@ final class FilmInfoTableViewController: UITableViewController {
     private func getActorsInfo() {
         let session = URLSession.shared
         let actualURL =
-            "\(Constants.trailerStartActualURLString)\(filmId)\(Constants.actorsEndActualURLString)"
+            "https://api.themoviedb.org/3/movie/\(filmId)/credits?api_key=56c45ba32cd76399770966658bf65ca0&language=en-US"
         guard let url = URL(string: actualURL) else { return }
         session.dataTask(with: URLRequest(url: url)) { data, _, error in
 
             do {
                 guard let newData = data else { return }
-<<<<<<< HEAD
                 let result = try JSONDecoder().decode(Welcome.self, from: newData)
 
-=======
-                let result = try JSONDecoder().decode(ActorResults.self, from: newData)
->>>>>>> 87a7c29 (Исправил 42/43 замечаний)
                 self.actorsResults = result.cast
 
             } catch {
@@ -108,9 +93,6 @@ extension FilmInfoTableViewController {
         static let trailerCellIdentifier = "trailer"
         static let overviewCellIdentifier = "overview"
         static let actorsCellIdentifier = "actors"
-        static let trailerStartActualURLString = "https://api.themoviedb.org/3/movie/"
-        static let trailerEndActualURLString = "/videos?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU"
-        static let actorsEndActualURLString = "/videos?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU"
     }
 
     enum CellTypes {
@@ -139,16 +121,15 @@ extension FilmInfoTableViewController {
                 withIdentifier: Constants.trailerCellIdentifier,
                 for: indexPath
             ) as? TrailerTableViewCell else { return UITableViewCell() }
-            cell.refresh(tvc: self)
+            cell.secondFilmImageView.image = posterimage
+            cell.backdropImageId = backdropImageId
 
-            cell.sendOpenWebPageAction = { [weak self] in
-                guard let filmId = self?.filmId, let trailerURL = self?.trailerURL,
-                      let result = self?.trailersResults[indexPath.section] else { return }
+            cell.sendOpenWebPageAction = { [self] in
                 let trailerWebPageVC = TrailerWebPageViewController()
-                trailerWebPageVC.movieId = filmId
-                trailerWebPageVC.trailerURLString = trailerURL
-                trailerWebPageVC.refresh = result
-                self?.present(trailerWebPageVC, animated: true)
+                trailerWebPageVC.movieId = self.filmId
+                trailerWebPageVC.trailerURLString = self.trailerURL
+                trailerWebPageVC.refresh = trailersResults[indexPath.section]
+                self.present(trailerWebPageVC, animated: true)
             }
             return cell
 
@@ -157,7 +138,7 @@ extension FilmInfoTableViewController {
                 withIdentifier: Constants.overviewCellIdentifier,
                 for: indexPath
             ) as? OverviewTableViewCell else { return UITableViewCell() }
-            cell.refresh(tvc: self)
+            cell.overviewLabel.text = selectedFilmOverviewText
 
             return cell
 
@@ -166,7 +147,8 @@ extension FilmInfoTableViewController {
                 withIdentifier: Constants.actorsCellIdentifier,
                 for: indexPath
             ) as? ActorsTableViewCell else { return UITableViewCell() }
-            cell.refresh(tvc: self)
+            cell.filmId = filmId
+            cell.actorsResults = actorsResults
 
             return cell
         }

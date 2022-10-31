@@ -7,29 +7,23 @@ import UIKit
 final class FilmsTableViewController: UITableViewController {
     // MARK: - Public properties
 
-<<<<<<< HEAD
     var movies = [Result]()
     var cellTypes: [CellTypes] = [.filters, .films]
     var actualURL = Constants.topRatedFilmsURLString
     var sendOverviewText: (() -> Void)?
-=======
-    private var movies = [Result]()
-    private var actualURL = Constants.topRatedFilmsURLString
-    private var sendOverviewText: (() -> Void)?
->>>>>>> 87a7c29 (Исправил 42/43 замечаний)
 
     // MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configNavigationBar()
+        configUI()
         configCells()
         reformMovies()
     }
 
     // MARK: - Private methods
 
-    private func configNavigationBar() {
+    private func configUI() {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = Constants.filmsText
         navigationController?.navigationBar
@@ -62,11 +56,6 @@ final class FilmsTableViewController: UITableViewController {
                 print(Constants.errorText, error)
             }
         }.resume()
-    }
-
-    private func getCategoriesURL(stringURL: String) {
-        actualURL = stringURL
-        reformMovies()
     }
 }
 
@@ -117,23 +106,22 @@ extension FilmsTableViewController {
                 withIdentifier: Constants.filterCellIdentifier,
                 for: indexPath
             ) as? FilterTableViewCell else { return UITableViewCell() }
-            cell.sendURLClosure = { url in
-                self.getCategoriesURL(stringURL: url)
+            cell.sendTopRatedURLClosure = {
+                self.actualURL = Constants.topRatedFilmsURLString
+                self.reformMovies()
             }
 
             cell.sendUpcomingURLClosure = {
-<<<<<<< HEAD
                 self.actualURL = Constants.upcomingFilmsURLString
                 self.reformMovies()
                 
-=======
-                self.getCategoriesURL(stringURL: Constants.upcomingFilmsURLString)
->>>>>>> 87a7c29 (Исправил 42/43 замечаний)
             }
 
             cell.sendPopularURLClosure = {
-                self.getCategoriesURL(stringURL: Constants.popularFilmsURLString)
+                self.actualURL = Constants.popularFilmsURLString
+                self.reformMovies()
             }
+
             return cell
         case .films:
             guard let cell = tableView.dequeueReusableCell(
@@ -148,11 +136,19 @@ extension FilmsTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCell = tableView.indexPathForSelectedRow
-        guard let selectedCell = selectedCell,
-              let movie = tableView.cellForRow(at: selectedCell) as? FilmTableViewCell else { return }
         let filmInfoTVC = FilmInfoTableViewController()
-        filmInfoTVC.movies = movie
+        let selectedCell = tableView.indexPathForSelectedRow
+
+        guard let selectedCell = selectedCell,
+              let current = tableView.cellForRow(at: selectedCell) as? FilmTableViewCell,
+              let image = current.filmImageView.image, let text = current.filmOverviewLabel.text else { return }
+
+        filmInfoTVC.title = current.filmNameLabel.text
+        filmInfoTVC.selectedFilmOverviewText = text
+        filmInfoTVC.posterimage = image
+        filmInfoTVC.filmId = current.filmId
+        filmInfoTVC.backdropImageId = current.backdropImageId
+
         navigationController?.pushViewController(filmInfoTVC, animated: true)
     }
 
