@@ -118,13 +118,6 @@ extension FilmsTableViewController {
                 self.getCategoriesURL(stringURL: url)
             }
 
-            cell.sendUpcomingURLClosure = {
-                self.getCategoriesURL(stringURL: Constants.upcomingFilmsURLString)
-            }
-
-            cell.sendPopularURLClosure = {
-                self.getCategoriesURL(stringURL: Constants.popularFilmsURLString)
-            }
             return cell
         case .films:
             guard let cell = tableView.dequeueReusableCell(
