@@ -21,7 +21,7 @@ final class ActorsTableViewCell: UITableViewCell {
 
     // MARK: - Public properties
 
-    var filmId = String()
+    var filmId = ""
     var actorsResults = [Cast]()
 
     // MARK: - LifeCycle

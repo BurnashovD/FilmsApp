@@ -9,15 +9,18 @@ final class FilmInfoTableViewController: UITableViewController {
 
     private let cellTypes: [CellTypes] = [.images, .overview, .actors]
 
-    // MARK: - Public properties
+    // MARK: - Private properties
 
     var selectedFilmOverviewText = String()
     var posterimage = UIImage()
-    var filmId = String()
+    private var filmId = String()
     var backdropImageId = String()
-    var trailerURL = String()
-    var trailersResults = [TrailerResult]()
-    var actorsResults = [Cast]()
+    private var trailerURL = String()
+    private var trailersResults = [TrailerResult]()
+    private var actorsResults = [Cast]()
+
+    // MARK: - Public properties
+
     var movies: FilmTableViewCell? {
         didSet {
             guard let image = movies?.filmImageView.image, let text = movies?.filmOverviewLabel.text,
@@ -61,7 +64,7 @@ final class FilmInfoTableViewController: UITableViewController {
     private func getTrailerURL() {
         let session = URLSession.shared
         let actualURL =
-            "https://api.themoviedb.org/3/movie/\(filmId)/videos?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU"
+            "\(Constants.moviesStartURLString)\(filmId)\(Constants.trailerEndURLString)"
         guard let url = URL(string: actualURL) else { return }
         session.dataTask(with: URLRequest(url: url)) { data, _, error in
 
@@ -80,13 +83,13 @@ final class FilmInfoTableViewController: UITableViewController {
     private func getActorsInfo() {
         let session = URLSession.shared
         let actualURL =
-            "https://api.themoviedb.org/3/movie/\(filmId)/credits?api_key=56c45ba32cd76399770966658bf65ca0&language=en-US"
+            "\(Constants.moviesStartURLString)\(filmId)\(Constants.actorsEndURLString)"
         guard let url = URL(string: actualURL) else { return }
         session.dataTask(with: URLRequest(url: url)) { data, _, error in
 
             do {
                 guard let newData = data else { return }
-                let result = try JSONDecoder().decode(Welcome.self, from: newData)
+                let result = try JSONDecoder().decode(ActorsResult.self, from: newData)
 
                 self.actorsResults = result.cast
 
@@ -104,6 +107,9 @@ extension FilmInfoTableViewController {
         static let trailerCellIdentifier = "trailer"
         static let overviewCellIdentifier = "overview"
         static let actorsCellIdentifier = "actors"
+        static let moviesStartURLString = "https://api.themoviedb.org/3/movie/"
+        static let actorsEndURLString = "/credits?api_key=56c45ba32cd76399770966658bf65ca0&language=en-US"
+        static let trailerEndURLString = "/videos?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU"
     }
 
     enum CellTypes {
@@ -132,15 +138,16 @@ extension FilmInfoTableViewController {
                 withIdentifier: Constants.trailerCellIdentifier,
                 for: indexPath
             ) as? TrailerTableViewCell else { return UITableViewCell() }
-            cell.secondFilmImageView.image = posterimage
-            cell.backdropImageId = backdropImageId
+            cell.refresh(self)
 
-            cell.sendOpenWebPageAction = { [self] in
+            cell.sendOpenWebPageAction = { [weak self] in
                 let trailerWebPageVC = TrailerWebPageViewController()
-                trailerWebPageVC.movieId = self.filmId
-                trailerWebPageVC.trailerURLString = self.trailerURL
-                trailerWebPageVC.refresh = trailersResults[indexPath.section]
-                self.present(trailerWebPageVC, animated: true)
+                guard let filmID = self?.filmId, let trailerURL = self?.trailerURL,
+                      let result = self?.trailersResults[indexPath.section] else { return }
+                trailerWebPageVC.movieId = filmID
+                trailerWebPageVC.trailerURLString = trailerURL
+                trailerWebPageVC.refresh = result
+                self?.present(trailerWebPageVC, animated: true)
             }
             return cell
 

@@ -7,7 +7,7 @@ import UIKit
 final class OverviewTableViewCell: UITableViewCell {
     // MARK: - Visual components
 
-    let overviewTextLabel: UILabel = {
+    private let overviewTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = Constants.overviewText
@@ -16,7 +16,7 @@ final class OverviewTableViewCell: UITableViewCell {
         return label
     }()
 
-    let overviewLabel: UILabel = {
+    private let overviewLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
@@ -31,6 +31,10 @@ final class OverviewTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         configUI()
+    }
+
+    public func refresh(filmInfo: FilmInfoTableViewController) {
+        overviewLabel.text = filmInfo.selectedFilmOverviewText
     }
 
     // MARK: - Private methods
