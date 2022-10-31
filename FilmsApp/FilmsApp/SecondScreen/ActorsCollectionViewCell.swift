@@ -30,13 +30,13 @@ final class ActorsCollectionViewCell: UICollectionViewCell {
         didSet {
             guard let profPath = refreshActors?.profilePath else { return }
             actorName.text = refreshActors?.originalName
-            let imageURL = Constants.actorsImageViewURLString + profPath
+            let imageURL = "http://image.tmdb.org/t/p/w500\(profPath)"
             guard let url = URL(string: imageURL) else { return }
             URLSession.shared.dataTask(with: url) { data, _, error in
 
                 guard let data = data, error == nil else { return }
-                DispatchQueue.main.async {
-                    self.actorImageView.image = UIImage(data: data)
+                DispatchQueue.main.async { [weak self] in
+                    self?.actorImageView.image = UIImage(data: data)
                 }
             }.resume()
         }
@@ -56,7 +56,6 @@ final class ActorsCollectionViewCell: UICollectionViewCell {
     }
 
     override func layoutSubviews() {
-        super.layoutSubviews()
         createLabelAnchors()
         createImageViewAnchors()
     }
@@ -81,6 +80,5 @@ final class ActorsCollectionViewCell: UICollectionViewCell {
 extension ActorsCollectionViewCell {
     enum Constants {
         static let errorText = "init(coder:) has not been implemented"
-        static let actorsImageViewURLString = "http://image.tmdb.org/t/p/w500"
     }
 }
