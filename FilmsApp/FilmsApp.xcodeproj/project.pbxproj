@@ -64,7 +64,7 @@
 		A5EF2ED02906C1C9005B1F54 /* FilmsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FilmsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5EF2ED42906C1C9005B1F54 /* FilmsAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmsAppUITests.swift; sourceTree = "<group>"; };
 		A5EF2ED62906C1C9005B1F54 /* FilmsAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmsAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		A5EF2EE52906E07F005B1F54 /* FilmsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmsTableViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
+		A5EF2EE52906E07F005B1F54 /* FilmsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmsTableViewController.swift; sourceTree = "<group>"; };
 		A5EF2EE72906E12D005B1F54 /* FilmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmTableViewCell.swift; sourceTree = "<group>"; };
 		A5EF2EE92906F3A8005B1F54 /* FilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
