@@ -39,9 +39,7 @@ final class FilterTableViewCell: UITableViewCell {
 
     // MARK: - Public properties
 
-    var sendTopRatedURLClosure: (() -> Void)?
-    var sendUpcomingURLClosure: (() -> Void)?
-    var sendPopularURLClosure: (() -> Void)?
+    var sendURLClosure: ((String) -> Void)?
 
     // MARK: - LifeCycle
 
@@ -49,7 +47,6 @@ final class FilterTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         backgroundColor = UIColor(named: Constants.blueViewColorName)
         configUI()
-        createFirstButtonAnchors()
     }
 
     // MARK: - Private methods
@@ -59,29 +56,29 @@ final class FilterTableViewCell: UITableViewCell {
         contentView.addSubview(topRatedButton)
         contentView.addSubview(upcomingButton)
         contentView.addSubview(popularButton)
-        topRatedButton.addTarget(self, action: #selector(sendTopRatedURL), for: .touchUpInside)
-        upcomingButton.addTarget(self, action: #selector(sendUpcomingdURL), for: .touchUpInside)
-        popularButton.addTarget(self, action: #selector(sendPopularURL), for: .touchUpInside)
-        createFirstButtonAnchors()
-        createSecondButtonAnchors()
-        createThirdButtonAnchors()
+        topRatedButton.addTarget(self, action: #selector(sendTopRatedURLAction), for: .touchUpInside)
+        upcomingButton.addTarget(self, action: #selector(sendUpcomingdURLAction), for: .touchUpInside)
+        popularButton.addTarget(self, action: #selector(sendPopularURLAction), for: .touchUpInside)
+        createTopRatedButtonAnchors()
+        createUpcomingButtonAnchors()
+        createPopularButtonAnchors()
     }
 
-    private func createFirstButtonAnchors() {
+    private func createTopRatedButtonAnchors() {
         topRatedButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         topRatedButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
         topRatedButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
         topRatedButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
 
-    private func createSecondButtonAnchors() {
+    private func createUpcomingButtonAnchors() {
         upcomingButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         upcomingButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
         upcomingButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
         upcomingButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
 
-    private func createThirdButtonAnchors() {
+    private func createPopularButtonAnchors() {
         popularButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
         popularButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
         popularButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
@@ -89,16 +86,16 @@ final class FilterTableViewCell: UITableViewCell {
         popularButton.heightAnchor.constraint(equalToConstant: 30).isActive = false
     }
 
-    @objc private func sendTopRatedURL() {
-        sendTopRatedURLClosure?()
+    @objc private func sendTopRatedURLAction() {
+        sendURLClosure?(Constants.topRatedURLStrang)
     }
 
-    @objc private func sendUpcomingdURL() {
-        sendUpcomingURLClosure?()
+    @objc private func sendUpcomingdURLAction() {
+        sendURLClosure?(Constants.upcomingURLString)
     }
 
-    @objc private func sendPopularURL() {
-        sendPopularURLClosure?()
+    @objc private func sendPopularURLAction() {
+        sendURLClosure?(Constants.popularURLString)
     }
 }
 
@@ -109,5 +106,8 @@ extension FilterTableViewCell {
         static let topRatedText = "Top rated"
         static let upcomingText = "Upcoming"
         static let popularText = "Popular"
+        static let topRatedURLStrang = "https://api.themoviedb.org/3/movie/top_rated?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
+        static let upcomingURLString = "https://api.themoviedb.org/3/movie/upcoming?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-RU&page=1"
+        static let popularURLString = "https://api.themoviedb.org/3/movie/popular?api_key=56c45ba32cd76399770966658bf65ca0&language=ru-Ru&page=1"
     }
 }
