@@ -31,6 +31,11 @@ final class ActorsTableViewCell: UITableViewCell {
         configUI()
     }
 
+    public func refresh(filmInfo: FilmInfoTableViewController) {
+        filmId = filmInfo.filmId
+        actorsResults = filmInfo.actorsResults
+    }
+
     // MARK: - Private func
 
     private func configUI() {

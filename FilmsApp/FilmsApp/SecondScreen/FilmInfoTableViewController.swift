@@ -11,16 +11,16 @@ final class FilmInfoTableViewController: UITableViewController {
 
     // MARK: - Private properties
 
-    var selectedFilmOverviewText = String()
-    var posterimage = UIImage()
-    private var filmId = String()
-    var backdropImageId = String()
     private var trailerURL = String()
     private var trailersResults = [TrailerResult]()
-    private var actorsResults = [Cast]()
 
     // MARK: - Public properties
 
+    var selectedFilmOverviewText = String()
+    var posterimage = UIImage()
+    var filmId = String()
+    var backdropImageId = String()
+    var actorsResults = [Cast]()
     var movies: FilmTableViewCell? {
         didSet {
             guard let image = movies?.filmImageView.image, let text = movies?.filmOverviewLabel.text,
@@ -165,8 +165,7 @@ extension FilmInfoTableViewController {
                 withIdentifier: Constants.actorsCellIdentifier,
                 for: indexPath
             ) as? ActorsTableViewCell else { return UITableViewCell() }
-            cell.filmId = filmId
-            cell.actorsResults = actorsResults
+            cell.refresh(filmInfo: self)
 
             return cell
         }
