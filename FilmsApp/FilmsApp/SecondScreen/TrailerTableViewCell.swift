@@ -7,7 +7,7 @@ import UIKit
 final class TrailerTableViewCell: UITableViewCell {
     // MARK: - Visual components
 
-    private let filmImageView: UIImageView = {
+    private var filmImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
@@ -17,7 +17,7 @@ final class TrailerTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private let secondFilmImageView: UIImageView = {
+    var secondFilmImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 15
@@ -37,6 +37,8 @@ final class TrailerTableViewCell: UITableViewCell {
         return scroll
     }()
 
+    // MARK: - Private properties
+
     private lazy var tapFilmImageViewRecognizer = UITapGestureRecognizer(
         target: self,
         action: #selector(openTrailerWebPageAction)
@@ -45,7 +47,7 @@ final class TrailerTableViewCell: UITableViewCell {
     // MARK: - Public properties
 
     var sendOpenWebPageAction: (() -> Void)?
-    private var backdropImageId = ""
+    var backdropImageId = String()
 
     // MARK: - LifeCycle
 
@@ -56,11 +58,6 @@ final class TrailerTableViewCell: UITableViewCell {
     }
 
     // MARK: - Private methods
-
-    func refresh(tvc: FilmInfoTableViewController) {
-        secondFilmImageView.image = tvc.posterimage
-        backdropImageId = tvc.backdropImageId
-    }
 
     private func configUI() {
         selectionStyle = .none
@@ -98,13 +95,13 @@ final class TrailerTableViewCell: UITableViewCell {
     }
 
     private func getTrailerImage() {
-        let imageURL = "\(Constants.trailerImageURLString)\(backdropImageId)"
+        let imageURL = "http://image.tmdb.org/t/p/w500\(backdropImageId)"
         guard let url = URL(string: imageURL) else { return }
         URLSession.shared.dataTask(with: url) { data, _, error in
 
             guard let data = data, error == nil else { return }
-            DispatchQueue.main.async {
-                self.filmImageView.image = UIImage(data: data)
+            DispatchQueue.main.async { [weak self] in
+                self?.filmImageView.image = UIImage(data: data)
             }
         }.resume()
     }
@@ -118,6 +115,5 @@ final class TrailerTableViewCell: UITableViewCell {
 extension TrailerTableViewCell {
     enum Constants {
         static let blueViewColorname = "blueView"
-        static let trailerImageURLString = "http://image.tmdb.org/t/p/w500"
     }
 }

@@ -7,7 +7,7 @@ import UIKit
 final class OverviewTableViewCell: UITableViewCell {
     // MARK: - Visual components
 
-    private let overviewTextLabel: UILabel = {
+    let overviewTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = Constants.overviewText
@@ -16,7 +16,7 @@ final class OverviewTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let overviewLabel: UILabel = {
+    let overviewLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
@@ -34,10 +34,6 @@ final class OverviewTableViewCell: UITableViewCell {
     }
 
     // MARK: - Private methods
-
-    public func refresh(tvc: FilmInfoTableViewController) {
-        overviewLabel.text = tvc.selectedFilmOverviewText
-    }
 
     private func configUI() {
         backgroundColor = UIColor(named: Constants.blueViewColorName)
