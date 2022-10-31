@@ -114,6 +114,7 @@ extension FilmsTableViewController {
             cell.sendUpcomingURLClosure = {
                 self.actualURL = Constants.upcomingFilmsURLString
                 self.reformMovies()
+                
             }
 
             cell.sendPopularURLClosure = {
