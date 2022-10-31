@@ -18,6 +18,17 @@ final class FilmInfoTableViewController: UITableViewController {
     var trailerURL = String()
     var trailersResults = [TrailerResult]()
     var actorsResults = [Cast]()
+    var movies: FilmTableViewCell? {
+        didSet {
+            guard let image = movies?.filmImageView.image, let text = movies?.filmOverviewLabel.text,
+                  let filmID = movies?.filmId, let backdrop = movies?.backdropImageId else { return }
+            title = movies?.filmNameLabel.text
+            selectedFilmOverviewText = text
+            posterimage = image
+            filmId = filmID
+            backdropImageId = backdrop
+        }
+    }
 
     // MARK: - LifeCycle
 

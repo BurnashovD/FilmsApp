@@ -66,21 +66,7 @@ final class FilmTableViewCell: UITableViewCell {
     var movieRefresh: Result? {
         didSet {
             guard let movieRefresh = movieRefresh else { return }
-            filmNameLabel.text = movieRefresh.title
-            filmRateLabel.text = String(movieRefresh.voteAverage)
-            filmOverviewLabel.text = movieRefresh.overview
-            filmId = String(movieRefresh.id)
-            backdropImageId = movieRefresh.backdropPath
-
-            let imageURL = "http://image.tmdb.org/t/p/w500\(movieRefresh.posterPath)"
-            guard let url = URL(string: imageURL) else { return }
-            URLSession.shared.dataTask(with: url) { data, _, error in
-
-                guard let data = data, error == nil else { return }
-                DispatchQueue.main.async { [weak self] in
-                    self?.filmImageView.image = UIImage(data: data)
-                }
-            }.resume()
+            refreshMovies(movieRefresh)
         }
     }
 
@@ -106,6 +92,24 @@ final class FilmTableViewCell: UITableViewCell {
         createFilmNameLabelAnchors()
         createFilmRatesAnchors()
         createFilmOverviewLabelAnchors()
+    }
+
+    private func refreshMovies(_ model: Result) {
+        filmNameLabel.text = model.title
+        filmRateLabel.text = String(model.voteAverage)
+        filmOverviewLabel.text = model.overview
+        filmId = String(model.id)
+        backdropImageId = model.backdropPath
+
+        let imageURL = "\(Constants.imageURLString)\(model.posterPath)"
+        guard let url = URL(string: imageURL) else { return }
+        URLSession.shared.dataTask(with: url) { data, _, error in
+
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async {
+                self.filmImageView.image = UIImage(data: data)
+            }
+        }.resume()
     }
 
     private func createViewAnchors() {
@@ -145,9 +149,11 @@ final class FilmTableViewCell: UITableViewCell {
     }
 }
 
+/// Constants
 extension FilmTableViewCell {
     enum Constants {
         static let cellViewColorName = "cellViewColor"
         static let blueViewColorName = "blueView"
+        static let imageURLString = "http://image.tmdb.org/t/p/w500"
     }
 }
