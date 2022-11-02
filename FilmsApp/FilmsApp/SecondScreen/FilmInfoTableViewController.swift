@@ -172,12 +172,6 @@ extension FilmInfoTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let type = cellTypes[indexPath.section]
-        switch type {
-        case .actors:
-            return UITableView.automaticDimension
-        default:
-            return UITableView.automaticDimension
-        }
+        UITableView.automaticDimension
     }
 }
