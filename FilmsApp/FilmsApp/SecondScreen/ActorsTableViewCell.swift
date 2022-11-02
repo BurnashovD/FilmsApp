@@ -39,7 +39,7 @@ final class ActorsTableViewCell: UITableViewCell {
     // MARK: - Private func
 
     private func configUI() {
-        backgroundColor = UIColor.gray
+        backgroundColor = UIColor(named: Constants.blueViewColorName)
         actorsCollectionView.delegate = self
         actorsCollectionView.dataSource = self
         actorsCollectionView.register(
@@ -54,7 +54,7 @@ final class ActorsTableViewCell: UITableViewCell {
         actorsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
         actorsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
         actorsCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
-        actorsCollectionView.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 1).isActive = true
+        actorsCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 1).isActive = true
         actorsCollectionView.heightAnchor.constraint(equalToConstant: 140).isActive = true
     }
 }

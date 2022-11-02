@@ -175,7 +175,7 @@ extension FilmInfoTableViewController {
         let type = cellTypes[indexPath.section]
         switch type {
         case .actors:
-            return 130
+            return UITableView.automaticDimension
         default:
             return UITableView.automaticDimension
         }

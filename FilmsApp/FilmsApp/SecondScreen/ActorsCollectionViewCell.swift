@@ -67,6 +67,7 @@ final class ActorsCollectionViewCell: UICollectionViewCell {
         actorName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
         actorName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
         actorName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 15).isActive = true
+        actorName.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
 
     private func createImageViewAnchors() {
